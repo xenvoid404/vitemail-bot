@@ -14,6 +14,7 @@ COPY --from=deps --chown=vitemail:vitemail /app/node_modules ./node_modules
 COPY --chown=vitemail:vitemail ./dist ./dist
 COPY --chown=vitemail:vitemail ./package.json ./package.json
 COPY --chown=vitemail:vitemail ./pnpm-lock.yaml ./pnpm-lock.yaml
+RUN mkdir -p data && chown -R vitemail:vitemail data
 RUN mkdir -p log && chown -R vitemail:vitemail log
 
 USER vitemail

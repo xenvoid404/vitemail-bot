@@ -13,6 +13,7 @@ services:
         ports:
             - '127.0.0.1:3005:3000'
         volumes:
+            - ./data:/app/data
             - ./log:/app/logs
             - telegram-api-data:/var/lib/telegram-bot-api
         depends_on:
