@@ -1,0 +1,8 @@
+name = "vitemail"
+main = "./dist/worker/worker.js"
+compatibility_date = "2026-04-17"
+account_id = "your_cloudflare_account_id"
+
+[vars]
+WEBHOOK_URL = "https://your-domain.com/api/webhook/email"
+WEBHOOK_SECRET = "your_secret_key"

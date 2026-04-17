@@ -1,0 +1,50 @@
+{
+    "name": "Vite Mail",
+    "private": true,
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "tsx --env-file=.env --watch src/main.ts",
+        "types": "tsc --noEmit",
+        "format": "prettier --write .",
+        "build": "tsup",
+        "build:worker": "tsup --config tsup.worker.config.ts",
+        "start": "node --env-file=.env dist/main.js",
+        "db:generate": "drizzle-kit generate",
+        "db:migrate": "drizzle-kit migrate",
+        "db:push": "drizzle-kit push",
+        "db:seed": "tsx --env-file=.env src/lib/sqlite/seeders/index.ts",
+        "db:reset": "tsx --env-file=.env src/lib/sqlite/reset.ts",
+        "db:studio": "npx drizzle-kit studio",
+        "docker:up": "docker compose up -d --build && docker image prune -f && docker system prune -f",
+        "docker:down": "docker compose down",
+        "docker:log": "docker compose logs -f",
+        "docker:restart": "pnpm docker:down && pnpm docker:up",
+        "docker:clean": "docker system prune -af",
+        "docker:clean:all": "docker system prune -af --volumes"
+    },
+    "dependencies": {
+        "@faker-js/faker": "^10.4.0",
+        "@grammyjs/storage-redis": "^2.5.1",
+        "@libsql/client": "^0.17.2",
+        "axios": "^1.15.0",
+        "dayjs": "^1.11.20",
+        "drizzle-orm": "^0.45.2",
+        "express": "^5.2.1",
+        "grammy": "^1.42.0",
+        "ioredis": "^5.10.1",
+        "postal-mime": "^2.7.4",
+        "winston": "^3.19.0",
+        "winston-daily-rotate-file": "^5.0.0"
+    },
+    "devDependencies": {
+        "@types/express": "^5.0.6",
+        "@types/node": "^25.6.0",
+        "drizzle-kit": "^0.31.10",
+        "prettier": "^3.8.3",
+        "prettier-plugin-organize-imports": "^4.3.0",
+        "tsup": "^8.5.1",
+        "tsx": "^4.21.0",
+        "typescript": "^6.0.2"
+    }
+}
