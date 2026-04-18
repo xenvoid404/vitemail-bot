@@ -15,38 +15,9 @@ services:
         volumes:
             - ./data:/app/data
             - ./log:/app/logs
-            - telegram-api-data:/var/lib/telegram-bot-api
-        depends_on:
-            vitemail-bot-redis:
-                condition: service_healthy
         networks:
             - app-network
-            - telegram-api-network
-
-    vitemail-bot-redis:
-        image: redis:7.0.15-alpine
-        container_name: vitemail-bot-redis
-        restart: unless-stopped
-        command: redis-server --appendonly yes --save 60 1 --loglevel warning
-        volumes:
-            - vitemail-bot-redis-data:/data
-        networks:
-            - app-network
-        healthcheck:
-            test: ['CMD', 'redis-cli', 'ping']
-            interval: 5s
-            timeout: 5s
-            retries: 5
 
 networks:
     app-network:
         driver: bridge
-    telegram-api-network:
-        external: true
-        name: telegram-api_app-network
-
-volumes:
-    vitemail-bot-redis-data:
-    telegram-api-data:
-        external: true
-        name: telegram-api_telegram-api-data
