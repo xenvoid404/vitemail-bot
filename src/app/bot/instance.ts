@@ -1,7 +1,8 @@
 import type { MyContext } from '@/app/bot/context';
-import envConf from '@/config/env';
+import appConf from '@/config/app';
+import telegramConf from '@/config/telegram';
 import { Bot } from 'grammy';
 
-export const bot = new Bot<MyContext>(envConf.telegram.botToken, {
-    client: envConf.app.env === 'production' ? { apiRoot: envConf.telegram.apiRoot } : undefined,
+export const bot = new Bot<MyContext>(telegramConf.botToken, {
+    client: appConf.env === 'production' ? { apiRoot: telegramConf.apiRoot } : undefined,
 });

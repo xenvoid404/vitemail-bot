@@ -1,4 +1,4 @@
-import envConf from '@/config/env';
+import logConf from '@/config/logging';
 import path from 'path';
 import winston from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
@@ -11,20 +11,20 @@ const myFormat = printf(({ level, message, label = 'App', timestamp, stack, ...m
 });
 
 const winstonLogger = winston.createLogger({
-    level: envConf.log.level || 'info',
+    level: logConf.level || 'info',
     format: combine(errors({ stack: true }), timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }), splat(), myFormat),
     transports: [
         new winston.transports.Console({
             format: combine(colorize({ all: true }), myFormat),
         }),
         new DailyRotateFile({
-            dirname: path.join(process.cwd(), envConf.log.dir),
+            dirname: path.join(process.cwd(), logConf.dir),
             filename: '%DATE%.log',
             datePattern: 'YYYY-MM-DD',
             zippedArchive: true,
-            maxSize: envConf.log.maxSize,
-            maxFiles: envConf.log.retention,
-            level: envConf.log.level,
+            maxSize: logConf.maxSize,
+            maxFiles: logConf.retention,
+            level: logConf.level,
         }),
     ],
 });

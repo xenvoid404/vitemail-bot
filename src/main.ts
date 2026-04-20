@@ -1,17 +1,18 @@
 import { setupBot } from '@/app/bot';
 import { bot } from '@/app/bot/instance';
 import { createServer } from '@/app/http';
-import envConf from '@/config/env';
+import appConf from '@/config/app';
+import { setupJobs } from '@/jobs';
 import { logger } from '@/lib/utils/logger';
 
-const startApp = async () => {
+async function bootstrap() {
     try {
         setupBot();
-        logger.info('main.ts', 'Logic bot successfully loaded');
+        logger.info('main.ts', 'Bot berhasil dimuat');
 
         const api = createServer();
-        const server = api.listen(envConf.app.port, async () => {
-            logger.info('main.ts', `HTTP Server running on port ${envConf.app.port}`);
+        const server = api.listen(appConf.port, async () => {
+            logger.info('main.ts', `HTTP Server berjalan di port ${appConf.port}`);
 
             await bot.start({
                 onStart: (botInfo) => {
@@ -20,13 +21,15 @@ const startApp = async () => {
             });
         });
 
+        setupJobs();
+
         const shutdown = async (signal: string) => {
-            logger.info('main.ts', `Signal ${signal} received, shutting down the system...`);
+            logger.info('main.ts', `Signal ${signal} diterima, mematikan sistem...`);
 
             server.close(async () => {
-                logger.info('main.ts', 'HTTP Server is closed');
+                logger.info('main.ts', 'HTTP Server ditutup');
                 await bot.stop();
-                logger.info('main.ts', 'Bot connection closed');
+                logger.info('main.ts', 'Koneksi bot ditutup');
                 process.exit(0);
             });
         };
@@ -37,6 +40,6 @@ const startApp = async () => {
         logger.error('main.ts', err);
         process.exit(1);
     }
-};
+}
 
-startApp();
+bootstrap();

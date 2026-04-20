@@ -1,5 +1,5 @@
 import { bot } from '@/app/bot/instance';
-import envConf from '@/config/env';
+import appConf from '@/config/app';
 import { logger } from '@/lib/utils/logger';
 import { EmailService } from '@/services/database/email-service';
 import { UserService } from '@/services/database/user-service';
@@ -10,7 +10,7 @@ import type { Request, Response } from 'express';
 export const emailWebhook = async (req: Request, res: Response): Promise<any> => {
     try {
         const payload = req.body;
-        if (payload.secret !== envConf.app.key) {
+        if (payload.secret !== appConf.key) {
             logger.warn('email-webhook.ts', 'Unauthorized webhook attempt');
             return res.status(401).json({ status: false, message: 'Unauthorized' });
         }
