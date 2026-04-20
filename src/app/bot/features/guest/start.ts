@@ -8,7 +8,9 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/id.js';
 import { InlineKeyboard } from 'grammy';
 
-export const startCommand = async (ctx: MyContext) => {
+dayjs.locale('id');
+
+export async function startCommand(ctx: MyContext) {
     if (!ctx.from) return;
     if (ctx.callbackQuery) await ctx.answerCallbackQuery();
     if (UserSession.isBusy(ctx) || AdminSession.isBusy(ctx)) {
@@ -27,7 +29,7 @@ export const startCommand = async (ctx: MyContext) => {
             const res = await createOrUpdateUser(ctx);
             user = res.user;
             created = res.created;
-            if (created) logger.info('start-command.ts', `New user registered: ${user.chatId} (@${user.username})`);
+            if (created) logger.info('start-command.ts', `User baru mendaftar: ${user.chatId} (@${user.username})`);
 
             ctx.session.user = { me: user, flow: { type: 'IDLE' } };
         }
@@ -55,9 +57,9 @@ export const startCommand = async (ctx: MyContext) => {
 
         return ctx.reply(errMsg, options);
     }
-};
+}
 
-const createOrUpdateUser = async (ctx: MyContext) => {
+async function createOrUpdateUser(ctx: MyContext) {
     const chatId = ctx.from!.id;
     const username = ctx.from!.username || `user_${chatId}`;
     const firstName = ctx.from!.first_name || username;
@@ -75,12 +77,12 @@ const createOrUpdateUser = async (ctx: MyContext) => {
     }
 
     return { user, created };
-};
+}
 
-const buildMainMessage = (user: User, activeEmail: Email | undefined): string => {
+function buildMainMessage(user: User, activeEmail: Email | null): string {
     if (activeEmail) {
-        const expiredTime = dayjs(activeEmail.expiredAt).locale('id').format('DD MMMM YYYY, HH:mm');
-        const createdTime = dayjs(activeEmail.createdAt).locale('id').format('DD MMMM YYYY, HH:mm');
+        const expiredTime = dayjs(activeEmail.expiredAt).format('DD MMMM YYYY, HH:mm');
+        const createdTime = dayjs(activeEmail.createdAt).format('DD MMMM YYYY, HH:mm');
 
         return [
             `Halo, <b>${user.firstName}</b>! 👋`,
@@ -101,16 +103,17 @@ const buildMainMessage = (user: User, activeEmail: Email | undefined): string =>
         '<b>✨ Fitur Tersedia:</b>',
         '🎲 <b>Email Acak</b> — buat email instan',
         '✏️ <b>Email Custom</b> — pilih prefixmu sendiri',
-        '🔔 <b>Notifikasi Real-time</b> — terima email langsung',
+        '🔔 <b>Notifikasi Realtime</b> — terima email langsung',
+        '📥 <b>Cek Inbox</b> — baca ulang pesan yang masuk',
         '━━━━━━━━━━━━━━━━━━━━━━━━',
         '<i>Pilih aksi dari menu di bawah ini:</i>',
     ].join('\n');
-};
+}
 
-const buildMainKeyboard = (activeEmail: Email | undefined): InlineKeyboard => {
+function buildMainKeyboard(activeEmail: Email | null): InlineKeyboard {
     if (activeEmail) {
-        return new InlineKeyboard().text('🗑️ Hapus Email Ini', 'user_delete_email');
+        return new InlineKeyboard().text('📥 Cek Inbox', 'user_email_inbox_page_1').row().text('🗑️ Hapus Email Ini', 'user_email_delete');
     }
 
-    return new InlineKeyboard().text('🎲 Email Acak', 'user_random_email').text('✏️ Email Custom', 'user_custom_email');
-};
+    return new InlineKeyboard().text('🎲 Email Acak', 'user_email_random').text('✏️ Email Custom', 'user_email_custom');
+}

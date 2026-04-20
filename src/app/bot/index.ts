@@ -9,7 +9,7 @@ import { logger } from '@/lib/utils/logger';
 import { RedisAdapter } from '@grammyjs/storage-redis';
 import { GrammyError, HttpError, session } from 'grammy';
 
-export const setupBot = () => {
+export function setupBot() {
     bot.use(session({ initial: (): SessionData => ({}), storage: new RedisAdapter<SessionData>({ instance: redis, ttl: 60 * 10 }) }));
     bot.use(authMiddleware);
     bot.use(guestFeatures);
@@ -40,4 +40,4 @@ export const setupBot = () => {
             logger.error('bot.index.ts', `Unknown error [Update ID: ${updateId}]:`, e);
         }
     });
-};
+}

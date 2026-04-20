@@ -163,7 +163,12 @@ export const emailCustom = {
 
             return ctx.reply(message, {
                 parse_mode: 'HTML',
-                reply_markup: new InlineKeyboard().text('🗑️ Hapus Email Ini', 'user_delete_email').row().text('🔙 Kembali', 'user_back_to_main'),
+                reply_markup: new InlineKeyboard()
+                    .text('📥 Cek Inbox', 'user_email_inbox_page_1')
+                    .row()
+                    .text('🗑️ Hapus Email Ini', 'user_delete_email')
+                    .row()
+                    .text('🔙 Kembali', 'user_back_to_main'),
             });
         } catch (err) {
             logger.error('email-custom.ts', err);

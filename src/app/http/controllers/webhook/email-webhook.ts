@@ -2,12 +2,15 @@ import { bot } from '@/app/bot/instance';
 import appConf from '@/config/app';
 import { logger } from '@/lib/utils/logger';
 import { EmailService } from '@/services/database/email-service';
+import { InboxService } from '@/services/database/inbox-service';
 import { UserService } from '@/services/database/user-service';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id.js';
 import type { Request, Response } from 'express';
 
-export const emailWebhook = async (req: Request, res: Response): Promise<any> => {
+dayjs.locale('id');
+
+export async function emailWebhook(req: Request, res: Response) {
     try {
         const payload = req.body;
         if (payload.secret !== appConf.key) {
@@ -27,20 +30,29 @@ export const emailWebhook = async (req: Request, res: Response): Promise<any> =>
             return res.status(200).json({ status: false, message: 'User not found' });
         }
 
+        const inbox = await InboxService.create({
+            emailId: emailRecord.id,
+            to: payload.to,
+            from: payload.from,
+            fromName: payload.fromName,
+            subject: payload.subject,
+            body: payload.body,
+            bodyHtml: payload.bodyHtml,
+            rawSize: payload.rawSize,
+        });
+
         const maxBodyLength = 3000;
         let safeBody =
-            payload.body.length > maxBodyLength
-                ? payload.body.substring(0, maxBodyLength) + '... [Pesan dipotong karena terlalu panjang]'
-                : payload.body;
+            inbox.body.length > maxBodyLength ? inbox.body.substring(0, maxBodyLength) + '... [Pesan dipotong karena terlalu panjang]' : inbox.body;
         safeBody = safeBody.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
         const message = [
             '📥 <b>EMAIL BARU MASUK!</b>',
             '━━━━━━━━━━━━━━━━━━━━━━━━',
-            `<b>Dari:</b> <code>${payload.from}</code>`,
-            `<b>Kepada:</b> <code>${payload.to}</code>`,
-            `<b>Subjek:</b> ${payload.subject}`,
-            `<b>Waktu:</b> ${dayjs().locale('id').format('DD MMMM YYYY, HH:mm')}`,
+            `<b>Dari:</b> <code>${inbox.from}</code>`,
+            `<b>Kepada:</b> <code>${inbox.to}</code>`,
+            `<b>Subjek:</b> ${inbox.subject}`,
+            `<b>Waktu:</b> ${dayjs(inbox.createdAt).format('DD MMM, HH:mm')}`,
             '━━━━━━━━━━━━━━━━━━━━━━━━',
             `<pre>${safeBody}</pre>`,
         ].join('\n');
@@ -54,4 +66,4 @@ export const emailWebhook = async (req: Request, res: Response): Promise<any> =>
         logger.error('email-webhook.ts', err);
         return res.status(500).json({ status: false, message: 'Internal server error' });
     }
-};
+}

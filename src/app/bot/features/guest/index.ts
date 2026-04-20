@@ -1,5 +1,5 @@
 import type { MyContext } from '@/app/bot/context';
-import { startCommand } from '@/app/bot/features/guest/start/start-command';
+import { startCommand } from '@/app/bot/features/guest/start';
 import { Composer } from 'grammy';
 
 const composer = new Composer<MyContext>();
