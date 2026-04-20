@@ -3,7 +3,7 @@ import { logger } from '@/lib/utils/logger';
 import { UserService } from '@/services/database/user-service';
 import type { NextFunction } from 'grammy';
 
-export const authMiddleware = async (ctx: MyContext, next: NextFunction) => {
+export async function authMiddleware(ctx: MyContext, next: NextFunction) {
     if (!ctx.from?.id) return next();
 
     try {
@@ -23,4 +23,4 @@ export const authMiddleware = async (ctx: MyContext, next: NextFunction) => {
     }
 
     return await next();
-};
+}
