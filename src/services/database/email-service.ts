@@ -1,6 +1,6 @@
-import { db } from '@/lib/sqlite';
-import { emails } from '@/lib/sqlite/schema';
-import type { Email, NewEmail } from '@/lib/sqlite/types';
+import { db } from '@/lib/postgres';
+import { emails } from '@/lib/postgres/schema';
+import type { Email, NewEmail } from '@/lib/postgres/types';
 import { and, eq, gt } from 'drizzle-orm';
 
 export class EmailService {

@@ -13,20 +13,12 @@
         "db:generate": "drizzle-kit generate",
         "db:migrate": "drizzle-kit migrate",
         "db:push": "drizzle-kit push",
-        "db:seed": "tsx --env-file=.env src/lib/sqlite/seeders/index.ts",
-        "db:reset": "tsx --env-file=.env src/lib/sqlite/reset.ts",
-        "db:studio": "npx drizzle-kit studio",
-        "docker:up": "docker compose up -d --build && docker image prune -f && docker system prune -f",
-        "docker:down": "docker compose down",
-        "docker:log": "docker compose logs -f",
-        "docker:restart": "pnpm docker:down && pnpm docker:up",
-        "docker:clean": "docker system prune -af",
-        "docker:clean:all": "docker system prune -af --volumes"
+        "db:seed": "tsx --env-file=.env src/lib/postgres/seeders/index.ts",
+        "db:reset": "tsx --env-file=.env src/lib/postgres/reset.ts"
     },
     "dependencies": {
         "@faker-js/faker": "^10.4.0",
         "@grammyjs/storage-redis": "^2.5.1",
-        "@libsql/client": "^0.17.2",
         "axios": "^1.15.0",
         "dayjs": "^1.11.20",
         "drizzle-orm": "^0.45.2",
@@ -34,6 +26,7 @@
         "grammy": "^1.42.0",
         "ioredis": "^5.10.1",
         "postal-mime": "^2.7.4",
+        "postgres": "^3.4.9",
         "winston": "^3.19.0",
         "winston-daily-rotate-file": "^5.0.0"
     },

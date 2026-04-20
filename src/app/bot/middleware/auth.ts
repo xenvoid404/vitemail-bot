@@ -11,7 +11,7 @@ export const authMiddleware = async (ctx: MyContext, next: NextFunction) => {
             return next();
         }
 
-        const user = await UserService.getByChatId(String(ctx.from.id));
+        const user = await UserService.getByChatId(ctx.from.id);
         if (user) {
             ctx.session.user = {
                 me: user,

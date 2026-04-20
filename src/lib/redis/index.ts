@@ -1,4 +1,4 @@
-import envConf from '@/config/env';
+import dbConf from '@/config/database';
 import { Redis } from 'ioredis';
 
-export const redis = new Redis(envConf.redis);
+export const redis = new Redis(dbConf.redis);

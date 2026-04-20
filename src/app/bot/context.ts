@@ -1,6 +1,6 @@
 import { AdminSessionState } from '@/app/bot/types/admin-session';
 import { UserSessionState } from '@/app/bot/types/user-session';
-import type { User } from '@/lib/sqlite/types';
+import type { User } from '@/lib/postgres/types';
 import type { Context, SessionFlavor } from 'grammy';
 
 export interface SessionData {

@@ -15,15 +15,4 @@ export default {
         apiRoot: process.env.TELEGRAM_API_ROOT || 'http://127.0.0.1:8081',
         botToken: process.env.TELEGRAM_BOT_TOKEN || 'unknown',
     },
-    sqlite: {
-        url: process.env.SQLITE_URL || 'file:./src/lib/sqlite/sqlite.db',
-    },
-    redis: {
-        host: process.env.REDIS_HOST || 'localhost',
-        password: process.env.REDIS_PASSWORD || undefined,
-        port: Number(process.env.REDIS_PORT) || 6379,
-        keyPrefix: process.env.REDIS_PREFIX,
-        maxRetriesPerRequest: null,
-        enableReadyCheck: false,
-    },
 };

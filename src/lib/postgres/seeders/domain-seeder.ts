@@ -1,11 +1,16 @@
-import { db } from '@/lib/sqlite';
-import { domains } from '@/lib/sqlite/schema';
-import type { NewDomain } from '@/lib/sqlite/types';
+import { db } from '@/lib/postgres';
+import { domains } from '@/lib/postgres/schema';
+import type { NewDomain } from '@/lib/postgres/types';
 
 export const domainSeeder = async () => {
     console.log('  Seeding domains...');
 
-    const data: NewDomain[] = [{ id: 1, name: 'esempe.web.id' }];
+    const data: NewDomain[] = [
+        { id: 1, name: 'esempe.web.id' },
+        { id: 2, name: 'wuniverse.web.id' },
+        { id: 3, name: 'nekopay.web.id' },
+        { id: 4, name: 'yuipedia.com' },
+    ];
 
     for (const row of data) {
         await db

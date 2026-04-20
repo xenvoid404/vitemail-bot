@@ -1,6 +1,6 @@
-import { db } from '@/lib/sqlite';
-import { users } from '@/lib/sqlite/schema';
-import type { NewUser, User } from '@/lib/sqlite/types';
+import { db } from '@/lib/postgres';
+import { users } from '@/lib/postgres/schema';
+import type { NewUser, User } from '@/lib/postgres/types';
 import { eq } from 'drizzle-orm';
 
 export class UserService {

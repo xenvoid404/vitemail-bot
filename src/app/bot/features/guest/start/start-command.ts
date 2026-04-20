@@ -1,5 +1,5 @@
 import type { MyContext } from '@/app/bot/context';
-import type { Email, User } from '@/lib/sqlite/types';
+import type { Email, User } from '@/lib/postgres/types';
 import { logger } from '@/lib/utils/logger';
 import { AdminSession, UserSession } from '@/lib/utils/session-control';
 import { EmailService } from '@/services/database/email-service';
@@ -58,7 +58,7 @@ export const startCommand = async (ctx: MyContext) => {
 };
 
 const createOrUpdateUser = async (ctx: MyContext) => {
-    const chatId = String(ctx.from!.id);
+    const chatId = ctx.from!.id;
     const username = ctx.from!.username || `user_${chatId}`;
     const firstName = ctx.from!.first_name || username;
     const lastName = ctx.from!.last_name || '';

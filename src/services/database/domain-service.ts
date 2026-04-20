@@ -1,6 +1,6 @@
-import { db } from '@/lib/sqlite';
-import { domains } from '@/lib/sqlite/schema';
-import type { Domain } from '@/lib/sqlite/types';
+import { db } from '@/lib/postgres';
+import { domains } from '@/lib/postgres/schema';
+import type { Domain } from '@/lib/postgres/types';
 import { asc, eq, sql } from 'drizzle-orm';
 
 export class DomainService {

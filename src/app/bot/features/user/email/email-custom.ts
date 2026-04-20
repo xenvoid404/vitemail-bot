@@ -1,6 +1,6 @@
 import type { MyContext } from '@/app/bot/context';
 import { logger } from '@/lib/utils/logger';
-import { ApplicationService } from '@/services/database/application-service';
+import { ConfigService } from '@/services/database/config-service';
 import { DomainService } from '@/services/database/domain-service';
 import { EmailService } from '@/services/database/email-service';
 import dayjs from 'dayjs';
@@ -131,7 +131,7 @@ export const emailCustom = {
                 });
             }
 
-            const application = await ApplicationService.getConfig();
+            const application = await ConfigService.getConfig();
             if (!application) {
                 return ctx.reply('❌ Terjadi kesalahan pada konfigurasi internal. Silahkan coba lagi nanti.', {
                     parse_mode: 'HTML',
