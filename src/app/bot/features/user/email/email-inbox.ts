@@ -4,7 +4,7 @@ import { logger } from '@/lib/utils/logger';
 import { EmailService } from '@/services/database/email-service';
 import { InboxService } from '@/services/database/inbox-service';
 import dayjs from 'dayjs';
-import 'dayjs/locale/id';
+import 'dayjs/locale/id.js';
 import { InlineKeyboard } from 'grammy';
 
 dayjs.locale('id');
@@ -18,7 +18,7 @@ export async function emailInbox(ctx: MyContext) {
         const user = ctx.session.user?.me;
         if (!user) {
             return await ctx.editMessageText('❌ Sesi kadaluarsa. Silahkan mulai ulang bot.', {
-                parse_mode: 'HTML',
+                parse_mode: 'HTML'
             });
         }
 
@@ -26,7 +26,7 @@ export async function emailInbox(ctx: MyContext) {
         if (!activeEmail) {
             return await ctx.editMessageText('❌ Kamu tidak memiliki email sementara yang aktif.', {
                 parse_mode: 'HTML',
-                reply_markup: new InlineKeyboard().text('🔙 Kembali', 'user_back_to_main'),
+                reply_markup: new InlineKeyboard().text('🔙 Kembali', 'user_back_to_main')
             });
         }
 
@@ -35,7 +35,7 @@ export async function emailInbox(ctx: MyContext) {
         if (items.length === 0) {
             return await ctx.editMessageText('📭 Kotak masuk kamu masih kosong.', {
                 parse_mode: 'HTML',
-                reply_markup: new InlineKeyboard().text('🔙 Kembali', 'user_back_to_main'),
+                reply_markup: new InlineKeyboard().text('🔙 Kembali', 'user_back_to_main')
             });
         }
 
@@ -47,7 +47,7 @@ export async function emailInbox(ctx: MyContext) {
         logger.error('email-inbox.ts', err);
         return ctx.editMessageText('❌ Terjadi kesalahan sistem. Coba lagi nanti atau hubungi admin.', {
             parse_mode: 'HTML',
-            reply_markup: new InlineKeyboard().text('🔙 Kembali', 'user_back_to_main'),
+            reply_markup: new InlineKeyboard().text('🔙 Kembali', 'user_back_to_main')
         });
     }
 }
