@@ -8,7 +8,9 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/id.js';
 import { InlineKeyboard } from 'grammy';
 
-export const emailRandom = async (ctx: MyContext) => {
+dayjs.locale('id');
+
+export async function emailRandom(ctx: MyContext) {
     if (!ctx.callbackQuery || !ctx.from) return;
     await ctx.answerCallbackQuery();
 
@@ -20,8 +22,8 @@ export const emailRandom = async (ctx: MyContext) => {
             });
         }
 
-        const application = await ConfigService.getConfig();
-        if (!application) {
+        const config = await ConfigService.getConfig();
+        if (!config) {
             return ctx.editMessageText('❌ Terjadi kesalahan pada konfigurasi internal. Silahkan coba lagi nanti.', {
                 parse_mode: 'HTML',
                 reply_markup: new InlineKeyboard().text('🔙 Kembali', 'user_back_to_main'),
@@ -32,7 +34,7 @@ export const emailRandom = async (ctx: MyContext) => {
         if (activeEmail) {
             return ctx.editMessageText('⚠️ Kamu masih memiliki email aktif! Harap hapus terlebih dahulu jika ingin membuat yang baru.', {
                 parse_mode: 'HTML',
-                reply_markup: new InlineKeyboard().text('🗑️ Hapus Email Ini', 'user_delete_email').row().text('🔙 Kembali', 'user_back_to_main'),
+                reply_markup: new InlineKeyboard().text('🗑️ Hapus Email Ini', 'user_email_delete').row().text('🔙 Kembali', 'user_back_to_main'),
             });
         }
 
@@ -70,7 +72,7 @@ export const emailRandom = async (ctx: MyContext) => {
             });
         }
 
-        const expiredDate = dayjs().locale('id').add(application.emailExpired, 'minute');
+        const expiredDate = dayjs().add(config.emailExpired, 'minute');
         const expiredTime = expiredDate.format('DD MMM YYYY, HH:mm');
 
         const email = await EmailService.create({
@@ -85,7 +87,7 @@ export const emailRandom = async (ctx: MyContext) => {
             '━━━━━━━━━━━━━━━━━━━━━━━━',
             `<b>📧 Alamat:</b> <code>${email.address}</code>`,
             `<b>⏳ Kadaluarsa:</b> ${expiredTime}`,
-            `<b>📅 Dibuat:</b> ${dayjs(email.createdAt).format('DD MMM YYYY, HH:mm')}`,
+            `<b>📅 Dibuat:</b> ${dayjs(email.createdAt).format('DD MMM, HH:mm')}`,
             '━━━━━━━━━━━━━━━━━━━━━━━━',
             `<i>💡 Tap alamat email di atas untuk menyalin.</i>`,
         ].join('\n');
@@ -95,15 +97,15 @@ export const emailRandom = async (ctx: MyContext) => {
             reply_markup: new InlineKeyboard()
                 .text('📥 Cek Inbox', 'user_email_inbox_page_1')
                 .row()
-                .text('🗑️ Hapus Email Ini', 'user_delete_email')
+                .text('🗑️ Hapus Email Ini', 'user_email_delete')
                 .row()
                 .text('🔙 Kembali', 'user_back_to_main'),
         });
     } catch (err) {
         logger.error('email-random.ts', err);
-        return ctx.editMessageText('<b>❌ Terjadi kesalahan sistem. Silahkan coba lagi nanti atau hubungi admin.</b>', {
+        return ctx.editMessageText('<b>❌ Terjadi kesalahan sistem. Coba lagi nanti atau hubungi admin.</b>', {
             parse_mode: 'HTML',
             reply_markup: new InlineKeyboard().text('🔙 Kembali', 'user_back_to_main'),
         });
     }
-};
+}

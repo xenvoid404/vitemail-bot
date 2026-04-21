@@ -3,7 +3,7 @@ import { logger } from '@/lib/utils/logger';
 import { EmailService } from '@/services/database/email-service';
 import { InlineKeyboard } from 'grammy';
 
-export const emailDelete = async (ctx: MyContext) => {
+export async function emailDelete(ctx: MyContext) {
     if (!ctx.callbackQuery || !ctx.from) return;
     await ctx.answerCallbackQuery();
 
@@ -32,9 +32,9 @@ export const emailDelete = async (ctx: MyContext) => {
         });
     } catch (err) {
         logger.error('email-delete.ts', err);
-        return ctx.editMessageText('<b>❌ Terjadi kesalahan sistem. Silahkan coba lagi nanti atau hubungi admin.</b>', {
+        return ctx.editMessageText('<b>❌ Terjadi kesalahan sistem. Coba lagi nanti atau hubungi admin.</b>', {
             parse_mode: 'HTML',
             reply_markup: new InlineKeyboard().text('🔙 Kembali', 'user_back_to_main'),
         });
     }
-};
+}

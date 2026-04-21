@@ -1,5 +1,6 @@
 import { bot } from '@/app/bot/instance';
 import appConf from '@/config/app';
+import { cleanExcessiveSpaces, escapeTelegramHtml } from '@/lib/utils/formatter';
 import { logger } from '@/lib/utils/logger';
 import { EmailService } from '@/services/database/email-service';
 import { InboxService } from '@/services/database/inbox-service';
@@ -42,16 +43,16 @@ export async function emailWebhook(req: Request, res: Response) {
         });
 
         const maxBodyLength = 3000;
-        let safeBody =
-            inbox.body.length > maxBodyLength ? inbox.body.substring(0, maxBodyLength) + '... [Pesan dipotong karena terlalu panjang]' : inbox.body;
-        safeBody = safeBody.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const cleanBody = cleanExcessiveSpaces(inbox.body);
+        let safeBody = escapeTelegramHtml(cleanBody);
+        safeBody = safeBody.length > maxBodyLength ? safeBody.substring(0, maxBodyLength) + '... [Pesan dipotong karena terlalu panjang]' : safeBody;
 
         const message = [
             '📥 <b>EMAIL BARU MASUK!</b>',
             '━━━━━━━━━━━━━━━━━━━━━━━━',
-            `<b>Dari:</b> <code>${inbox.from}</code>`,
-            `<b>Kepada:</b> <code>${inbox.to}</code>`,
-            `<b>Subjek:</b> ${inbox.subject}`,
+            `<b>Dari:</b> <code>${escapeTelegramHtml(inbox.from)}</code>`,
+            `<b>Kepada:</b> <code>${escapeTelegramHtml(inbox.to)}</code>`,
+            `<b>Subjek:</b> ${escapeTelegramHtml(inbox.subject)}`,
             `<b>Waktu:</b> ${dayjs(inbox.createdAt).format('DD MMM, HH:mm')}`,
             '━━━━━━━━━━━━━━━━━━━━━━━━',
             `<pre>${safeBody}</pre>`,
