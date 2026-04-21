@@ -8,6 +8,10 @@ export class InboxService {
         const result = await db.insert(inboxes).values(data).returning();
         return result[0];
     }
+    static async getById(id: Inbox['id']): Promise<Inbox | null> {
+        const result = await db.select().from(inboxes).where(eq(inboxes.id, id));
+        return result.length > 0 ? result[0] : null;
+    }
     static async getPaginatedByEmailId(emailId: Inbox['emailId'], page: number, limit: number) {
         const offset = (page - 1) * limit;
         const [items, countResult] = await Promise.all([
