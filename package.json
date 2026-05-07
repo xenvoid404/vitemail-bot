@@ -8,7 +8,6 @@
         "types": "tsc --noEmit",
         "format": "prettier --write .",
         "build": "tsup",
-        "build:worker": "tsup --config tsup.worker.config.ts",
         "start": "node --env-file=.env dist/main.js",
         "db:generate": "drizzle-kit generate",
         "db:migrate": "drizzle-kit migrate",
@@ -38,6 +37,7 @@
         "prettier-plugin-organize-imports": "^4.3.0",
         "tsup": "^8.5.1",
         "tsx": "^4.21.0",
-        "typescript": "^6.0.2"
+        "typescript": "^6.0.2",
+        "wrangler": "^4.88.0"
     }
 }
