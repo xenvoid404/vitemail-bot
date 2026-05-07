@@ -8,7 +8,7 @@ export const createServer = (): Express => {
     api.use(express.json());
     api.use(express.urlencoded({ extended: true }));
 
-    api.use('/api', route);
+    api.use('/api/v1', route);
 
     return api;
 };
