@@ -1,6 +1,6 @@
-import { setupBot } from '@/app/bot';
-import { bot } from '@/app/bot/instance';
 import { createServer } from '@/app/http';
+import { setupBot } from '@/bot';
+import { bot } from '@/bot/instance';
 import { envConfig } from '@/config';
 import { setupJobs } from '@/jobs';
 import { logger } from '@/lib/logger';

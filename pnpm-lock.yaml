@@ -11,9 +11,6 @@ importers:
       '@faker-js/faker':
         specifier: ^10.4.0
         version: 10.4.0
-      '@grammyjs/storage-redis':
-        specifier: ^2.5.1
-        version: 2.5.1
       axios:
         specifier: ^1.15.0
         version: 1.15.0
@@ -746,9 +743,6 @@ packages:
   '@faker-js/faker@10.4.0':
     resolution: {integrity: sha512-sDBWI3yLy8EcDzgobvJTWq1MJYzAkQdpjXuPukga9wXonhpMRvd1Izuo2Qgwey2OiEoRIBr35RMU9HJRoOHzpw==}
     engines: {node: ^20.19.0 || ^22.13.0 || ^23.5.0 || >=24.0.0, npm: '>=10'}
-
-  '@grammyjs/storage-redis@2.5.1':
-    resolution: {integrity: sha512-Rz7bnrtDz8NOjgSRR4n/rBciHKSvmkrgIUc+8Yb96tSsecBlA91MGOmcgmQXKxb7gTmwliF37VgmMT85bsCZtA==}
 
   '@grammyjs/types@3.26.0':
     resolution: {integrity: sha512-jlnyfxfev/2o68HlvAGRocAXgdPPX5QabG7jZlbqC2r9DZyWBfzTlg+nu3O3Fy4EhgLWu28hZ/8wr7DsNamP9A==}
@@ -2474,8 +2468,6 @@ snapshots:
     optional: true
 
   '@faker-js/faker@10.4.0': {}
-
-  '@grammyjs/storage-redis@2.5.1': {}
 
   '@grammyjs/types@3.26.0': {}
 

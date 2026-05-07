@@ -1,6 +1,6 @@
-import type { MyContext } from '@/app/bot/context';
+import type { BotContext } from '@/bot/context';
+import { FlowManager } from '@/bot/context';
 import { logger } from '@/lib/logger';
-import { UserSession } from '@/lib/utils/session-control';
 import { ConfigService } from '@/services/database/config-service';
 import { DomainService } from '@/services/database/domain-service';
 import { EmailService } from '@/services/database/email-service';
@@ -11,7 +11,7 @@ import { InlineKeyboard, type NextFunction } from 'grammy';
 dayjs.locale('id');
 
 export const emailCustom = {
-    async inputEmail(ctx: MyContext) {
+    async inputEmail(ctx: BotContext) {
         if (!ctx.callbackQuery || !ctx.session.user) return;
         await ctx.answerCallbackQuery();
 
@@ -65,7 +65,7 @@ export const emailCustom = {
             });
         }
     },
-    async processCreate(ctx: MyContext, next: NextFunction) {
+    async processCreate(ctx: BotContext, next: NextFunction) {
         if (!ctx.msg?.text || !ctx.session.user) return;
 
         const currentFlow = ctx.session.user.flow;
@@ -112,7 +112,7 @@ export const emailCustom = {
             } else {
                 selectedDomain = await DomainService.getRandom();
                 if (!selectedDomain) {
-                    UserSession.resetFlow(ctx);
+                    FlowManager.resetFlow(ctx, 'user');
                     return await ctx.reply('❌ Belum ada domain yang tersedia saat ini.');
                 }
             }
@@ -152,7 +152,7 @@ export const emailCustom = {
                 expiredAt: expiredDate.toDate(),
             });
 
-            UserSession.resetFlow(ctx);
+            FlowManager.resetFlow(ctx, 'user');
 
             const message = [
                 '✅ <b>EMAIL BERHASIL DIBUAT!</b>',
@@ -175,7 +175,7 @@ export const emailCustom = {
             });
         } catch (err) {
             logger.error('email-custom.ts', err);
-            UserSession.resetFlow(ctx);
+            FlowManager.resetFlow(ctx, 'user');
             return ctx.editMessageText('<b>❌ Terjadi kesalahan sistem. SCoba lagi nanti atau hubungi admin.</b>', {
                 parse_mode: 'HTML',
                 reply_markup: new InlineKeyboard().text('🔙 Kembali', 'user_back_to_main'),

@@ -1,4 +1,4 @@
-import type { MyContext } from '@/app/bot/context';
+import type { BotContext } from '@/bot/context';
 import type { Inbox } from '@/db/types';
 import { logger } from '@/lib/logger';
 import { EmailService } from '@/services/database/email-service';
@@ -10,7 +10,7 @@ import { InlineKeyboard } from 'grammy';
 dayjs.locale('id');
 const PER_PAGE = 5;
 
-export async function emailInbox(ctx: MyContext) {
+export async function emailInbox(ctx: BotContext) {
     if (!ctx.callbackQuery || !ctx.match) return;
     await ctx.answerCallbackQuery();
 

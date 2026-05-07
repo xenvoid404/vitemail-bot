@@ -1,7 +1,7 @@
-import type { MyContext } from '@/app/bot/context';
+import type { BotContext } from '@/bot/context';
+import { FlowManager } from '@/bot/context';
 import type { Email, User } from '@/db/types';
 import { logger } from '@/lib/logger';
-import { AdminSession, UserSession } from '@/lib/utils/session-control';
 import { EmailService } from '@/services/database/email-service';
 import { UserService } from '@/services/database/user-service';
 import dayjs from 'dayjs';
@@ -10,13 +10,10 @@ import { InlineKeyboard } from 'grammy';
 
 dayjs.locale('id');
 
-export async function startCommand(ctx: MyContext) {
+export async function startCommand(ctx: BotContext) {
     if (!ctx.from) return;
     if (ctx.callbackQuery) await ctx.answerCallbackQuery();
-    if (UserSession.isBusy(ctx) || AdminSession.isBusy(ctx)) {
-        UserSession.resetFlow(ctx);
-        AdminSession.resetFlow(ctx);
-    }
+    if (FlowManager.isBusy(ctx)) FlowManager.resetFlow(ctx);
 
     try {
         let user;
@@ -59,7 +56,7 @@ export async function startCommand(ctx: MyContext) {
     }
 }
 
-async function createOrUpdateUser(ctx: MyContext) {
+async function createOrUpdateUser(ctx: BotContext) {
     const chatId = ctx.from!.id;
     const username = ctx.from!.username || `user_${chatId}`;
     const firstName = ctx.from!.first_name || username;

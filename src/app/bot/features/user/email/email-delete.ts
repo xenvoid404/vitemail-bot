@@ -1,9 +1,9 @@
-import type { MyContext } from '@/app/bot/context';
+import type { BotContext } from '@/bot/context';
 import { logger } from '@/lib/logger';
 import { EmailService } from '@/services/database/email-service';
 import { InlineKeyboard } from 'grammy';
 
-export async function emailDelete(ctx: MyContext) {
+export async function emailDelete(ctx: BotContext) {
     if (!ctx.callbackQuery || !ctx.from) return;
     await ctx.answerCallbackQuery();
 

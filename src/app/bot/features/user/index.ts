@@ -1,12 +1,12 @@
-import type { MyContext } from '@/app/bot/context';
 import { emailCustom } from '@/app/bot/features/user/email/email-custom';
 import { emailDelete } from '@/app/bot/features/user/email/email-delete';
 import { emailInbox } from '@/app/bot/features/user/email/email-inbox';
 import { emailRandom } from '@/app/bot/features/user/email/email-random';
 import { emailRead } from '@/app/bot/features/user/email/email-read';
+import type { BotContext } from '@/bot/context';
 import { Composer } from 'grammy';
 
-const composer = new Composer<MyContext>();
+const composer = new Composer<BotContext>();
 
 composer.callbackQuery('user_email_random', (ctx) => emailRandom(ctx));
 composer.callbackQuery('user_email_custom', (ctx) => emailCustom.inputEmail(ctx));

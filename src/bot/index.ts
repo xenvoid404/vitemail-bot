@@ -1,20 +1,19 @@
-import type { MyContext, SessionData } from '@/app/bot/context';
 import guestFeatures from '@/app/bot/features/guest';
 import userFeatures from '@/app/bot/features/user';
-import { bot } from '@/app/bot/instance';
 import { authMiddleware } from '@/app/bot/middleware/auth';
 import { isRegistered } from '@/app/bot/middleware/is-registered';
 import { logger } from '@/lib/logger';
-import { redis } from '@/lib/redis';
-import { RedisAdapter } from '@grammyjs/storage-redis';
-import { GrammyError, HttpError, session } from 'grammy';
+import { GrammyError, HttpError } from 'grammy';
+import type { BotContext } from './context';
+import { bot } from './instance';
+import { sessionMiddleware } from './middleware/session.middleware';
 
 export function setupBot() {
-    bot.use(session({ initial: (): SessionData => ({}), storage: new RedisAdapter<SessionData>({ instance: redis, ttl: 60 * 10 }) }));
+    bot.use(sessionMiddleware());
     bot.use(authMiddleware);
     bot.use(guestFeatures);
 
-    const isTargetUser = (ctx: MyContext) => {
+    const isTargetUser = (ctx: BotContext) => {
         const data = ctx.callbackQuery?.data || '';
         const flow = ctx.session.user?.flow;
 

@@ -1,4 +1,4 @@
-import type { MyContext } from '@/app/bot/context';
+import type { BotContext } from '@/bot/context';
 import { logger } from '@/lib/logger';
 import { ConfigService } from '@/services/database/config-service';
 import { DomainService } from '@/services/database/domain-service';
@@ -10,7 +10,7 @@ import { InlineKeyboard } from 'grammy';
 
 dayjs.locale('id');
 
-export async function emailRandom(ctx: MyContext) {
+export async function emailRandom(ctx: BotContext) {
     if (!ctx.callbackQuery || !ctx.from) return;
     await ctx.answerCallbackQuery();
 

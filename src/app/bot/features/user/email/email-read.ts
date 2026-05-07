@@ -1,7 +1,7 @@
-import type { MyContext } from '@/app/bot/context';
+import type { BotContext } from '@/bot/context';
 import type { Inbox } from '@/db/types';
+import { cleanExcessiveSpaces, escapeTelegramHtml } from '@/lib/formatter';
 import { logger } from '@/lib/logger';
-import { cleanExcessiveSpaces, escapeTelegramHtml } from '@/lib/utils/formatter';
 import { InboxService } from '@/services/database/inbox-service';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id.js';
@@ -9,7 +9,7 @@ import { InlineKeyboard } from 'grammy';
 
 dayjs.locale('id');
 
-export async function emailRead(ctx: MyContext) {
+export async function emailRead(ctx: BotContext) {
     if (!ctx.callbackQuery || !ctx.match) return;
     await ctx.answerCallbackQuery();
 

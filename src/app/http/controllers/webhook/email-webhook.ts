@@ -1,7 +1,7 @@
-import { bot } from '@/app/bot/instance';
+import { bot } from '@/bot/instance';
 import { envConfig } from '@/config';
+import { cleanExcessiveSpaces, escapeTelegramHtml } from '@/lib/formatter';
 import { logger } from '@/lib/logger';
-import { cleanExcessiveSpaces, escapeTelegramHtml } from '@/lib/utils/formatter';
 import { EmailService } from '@/services/database/email-service';
 import { InboxService } from '@/services/database/inbox-service';
 import { UserService } from '@/services/database/user-service';
