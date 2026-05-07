@@ -1,32 +1,26 @@
-import guestFeatures from '@/app/bot/features/guest';
-import userFeatures from '@/app/bot/features/user';
-import { authMiddleware } from '@/app/bot/middleware/auth';
-import { isRegistered } from '@/app/bot/middleware/is-registered';
+import userFeatures from '@/bot/features/user';
 import { logger } from '@/lib/logger';
 import { GrammyError, HttpError } from 'grammy';
 import type { BotContext } from './context';
 import { bot } from './instance';
-import { maintenanceMiddleware } from './middleware/maintenance.middleware';
-import { sessionMiddleware } from './middleware/session.middleware';
+import { authMiddleware } from './middlewares/auth.middleware';
+import { maintenanceMiddleware } from './middlewares/maintenance.middleware';
+import { sessionMiddleware } from './middlewares/session.middleware';
 
-export function setupBot() {
+function isUserCtx(ctx: BotContext): boolean {
+    const text = ctx.msg?.text ?? '';
+    const data = ctx.callbackQuery?.data ?? '';
+    const flow = ctx.session.user?.flow;
+    return text.startsWith('/start') || data.startsWith('user_') || Boolean(flow && flow.type !== 'IDLE');
+}
+
+export function setupBot(): void {
     bot.use(sessionMiddleware());
     bot.use(maintenanceMiddleware);
     bot.use(authMiddleware);
-    bot.use(guestFeatures);
 
-    const isTargetUser = (ctx: BotContext) => {
-        const data = ctx.callbackQuery?.data || '';
-        const flow = ctx.session.user?.flow;
-
-        const isCallback = data.startsWith('user_');
-        const isFlowActive = Boolean(flow && flow.type !== 'IDLE');
-
-        return isCallback || isFlowActive;
-    };
-    const user = bot.filter(isTargetUser);
-    user.use(isRegistered);
-    user.use(userFeatures);
+    const userRouter = bot.filter(isUserCtx);
+    userRouter.use(userFeatures);
 
     bot.catch((err) => {
         const e = err.error;

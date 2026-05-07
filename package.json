@@ -12,7 +12,7 @@
         "db:generate": "drizzle-kit generate",
         "db:migrate": "drizzle-kit migrate",
         "db:push": "drizzle-kit push",
-        "db:seed": "tsx --env-file=.env src/lib/postgres/seeders/index.ts",
+        "db:seed": "tsx --env-file=.env src/db/seeders/index.ts",
         "db:reset": "tsx --env-file=.env src/lib/postgres/reset.ts"
     },
     "dependencies": {
