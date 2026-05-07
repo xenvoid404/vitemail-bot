@@ -1,8 +1,8 @@
 import PostalMime from 'postal-mime';
 
 interface Env {
-    WEBHOOK_URL: string;
-    WEBHOOK_SECRET: string;
+    CF_WEBHOOK_URL: string;
+    CF_WEBHOOK_SECRET: string;
 }
 
 export default {
@@ -49,7 +49,7 @@ export default {
                 body: parsedEmail.text || '(Pesan kosong)',
                 bodyHtml: parsedEmail.html || null,
                 rawSize: totalSize,
-                secret: env.WEBHOOK_SECRET,
+                secret: env.CF_WEBHOOK_SECRET,
             };
         } catch (err) {
             console.error('[ViteMail Worker] postal-mime gagal memparsing email:', err);
@@ -62,12 +62,12 @@ export default {
                 body: '(Gagal memproses isi email. Format tidak didukung)',
                 bodyHtml: null,
                 rawSize: totalSize,
-                secret: env.WEBHOOK_SECRET,
+                secret: env.CF_WEBHOOK_SECRET,
             };
         }
 
         try {
-            const response = await fetch(env.WEBHOOK_URL, {
+            const response = await fetch(env.CF_WEBHOOK_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
