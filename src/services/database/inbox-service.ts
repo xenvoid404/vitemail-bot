@@ -1,6 +1,6 @@
-import { db } from '@/lib/postgres';
-import { inboxes } from '@/lib/postgres/schema';
-import type { Inbox, NewInbox } from '@/lib/postgres/types';
+import { db } from '@/db';
+import { inboxes } from '@/db/schema';
+import type { Inbox, NewInbox } from '@/db/types';
 import { desc, eq, sql } from 'drizzle-orm';
 
 export class InboxService {

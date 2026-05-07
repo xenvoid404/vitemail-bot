@@ -1,4 +1,4 @@
-import * as schema from '@/lib/postgres/schema';
+import * as schema from '@/db/schema';
 
 export type NewConfig = typeof schema.configs.$inferInsert;
 export type Config = typeof schema.configs.$inferSelect;

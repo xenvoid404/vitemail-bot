@@ -1,7 +1,7 @@
 import type { MyContext } from '@/app/bot/context';
-import type { Inbox } from '@/lib/postgres/types';
+import type { Inbox } from '@/db/types';
+import { logger } from '@/lib/logger';
 import { cleanExcessiveSpaces, escapeTelegramHtml } from '@/lib/utils/formatter';
-import { logger } from '@/lib/utils/logger';
 import { InboxService } from '@/services/database/inbox-service';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id.js';

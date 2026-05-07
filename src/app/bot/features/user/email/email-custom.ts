@@ -1,5 +1,5 @@
 import type { MyContext } from '@/app/bot/context';
-import { logger } from '@/lib/utils/logger';
+import { logger } from '@/lib/logger';
 import { UserSession } from '@/lib/utils/session-control';
 import { ConfigService } from '@/services/database/config-service';
 import { DomainService } from '@/services/database/domain-service';

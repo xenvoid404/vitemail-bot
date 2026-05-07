@@ -1,6 +1,6 @@
-import { db } from '@/lib/postgres';
-import { domains } from '@/lib/postgres/schema';
-import type { NewDomain } from '@/lib/postgres/types';
+import { db } from '@/db';
+import { domains } from '@/db/schema';
+import type { NewDomain } from '@/db/types';
 
 export const domainSeeder = async () => {
     console.log('  Seeding domains...');

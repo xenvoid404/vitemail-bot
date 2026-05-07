@@ -1,9 +1,9 @@
 import { setupBot } from '@/app/bot';
 import { bot } from '@/app/bot/instance';
 import { createServer } from '@/app/http';
-import appConf from '@/config/app';
+import { envConfig } from '@/config';
 import { setupJobs } from '@/jobs';
-import { logger } from '@/lib/utils/logger';
+import { logger } from '@/lib/logger';
 
 async function bootstrap() {
     try {
@@ -11,8 +11,8 @@ async function bootstrap() {
         logger.info('main.ts', 'Bot berhasil dimuat');
 
         const api = createServer();
-        const server = api.listen(appConf.port, async () => {
-            logger.info('main.ts', `HTTP Server berjalan di port ${appConf.port}`);
+        const server = api.listen(envConfig.app.port, async () => {
+            logger.info('main.ts', `HTTP Server berjalan di port ${envConfig.app.port}`);
 
             await bot.start({
                 onStart: (botInfo) => {

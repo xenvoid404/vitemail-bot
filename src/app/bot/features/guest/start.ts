@@ -1,6 +1,6 @@
 import type { MyContext } from '@/app/bot/context';
-import type { Email, User } from '@/lib/postgres/types';
-import { logger } from '@/lib/utils/logger';
+import type { Email, User } from '@/db/types';
+import { logger } from '@/lib/logger';
 import { AdminSession, UserSession } from '@/lib/utils/session-control';
 import { EmailService } from '@/services/database/email-service';
 import { UserService } from '@/services/database/user-service';

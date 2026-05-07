@@ -4,8 +4,8 @@ import userFeatures from '@/app/bot/features/user';
 import { bot } from '@/app/bot/instance';
 import { authMiddleware } from '@/app/bot/middleware/auth';
 import { isRegistered } from '@/app/bot/middleware/is-registered';
+import { logger } from '@/lib/logger';
 import { redis } from '@/lib/redis';
-import { logger } from '@/lib/utils/logger';
 import { RedisAdapter } from '@grammyjs/storage-redis';
 import { GrammyError, HttpError, session } from 'grammy';
 
@@ -28,16 +28,15 @@ export function setupBot() {
     user.use(userFeatures);
 
     bot.catch((err) => {
-        const ctx = err.ctx;
         const e = err.error;
-        const updateId = ctx.update.update_id;
-
+        const updateId = err.ctx.update.update_id;
         if (e instanceof GrammyError) {
-            logger.error('bot.index.ts', `Error in request [Update ID: ${updateId}]:`, e.description);
+            if ((e as any).description?.includes('message is not modified')) return;
+            logger.error('bot:grammyError', e, { updateId });
         } else if (e instanceof HttpError) {
-            logger.error('bot.index.ts', `Could not contact Telegram [Update ID: ${updateId}]:`, e);
+            logger.error('bot:httpError', e, { updateId });
         } else {
-            logger.error('bot.index.ts', `Unknown error [Update ID: ${updateId}]:`, e);
+            logger.error('bot:unknownError', e instanceof Error ? e : String(e), { updateId });
         }
     });
 }

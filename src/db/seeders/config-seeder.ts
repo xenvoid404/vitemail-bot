@@ -1,5 +1,5 @@
-import { db } from '@/lib/postgres';
-import { configs } from '@/lib/postgres/schema';
+import { db } from '@/db';
+import { configs } from '@/db/schema';
 
 export const configSeeder = async () => {
     console.log('  Seeding configs...');

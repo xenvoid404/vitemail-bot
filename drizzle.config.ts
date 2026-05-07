@@ -5,7 +5,7 @@ try {
 } catch (err) {}
 
 export default defineConfig({
-    schema: './src/lib/postgres/schema.ts',
+    schema: './src/db/schema.ts',
     out: './drizzle',
     dialect: 'postgresql',
     dbCredentials: {

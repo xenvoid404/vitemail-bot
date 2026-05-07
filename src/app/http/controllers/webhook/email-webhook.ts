@@ -1,7 +1,7 @@
 import { bot } from '@/app/bot/instance';
-import appConf from '@/config/app';
+import { envConfig } from '@/config';
+import { logger } from '@/lib/logger';
 import { cleanExcessiveSpaces, escapeTelegramHtml } from '@/lib/utils/formatter';
-import { logger } from '@/lib/utils/logger';
 import { EmailService } from '@/services/database/email-service';
 import { InboxService } from '@/services/database/inbox-service';
 import { UserService } from '@/services/database/user-service';
@@ -14,7 +14,7 @@ dayjs.locale('id');
 export async function emailWebhook(req: Request, res: Response) {
     try {
         const payload = req.body;
-        if (payload.secret !== appConf.key) {
+        if (payload.secret !== envConfig.app.key) {
             logger.warn('email-webhook.ts', 'Unauthorized webhook attempt');
             return res.status(401).json({ status: false, message: 'Unauthorized' });
         }

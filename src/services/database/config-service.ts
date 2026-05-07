@@ -1,6 +1,6 @@
-import { db } from '@/lib/postgres';
-import { configs } from '@/lib/postgres/schema';
-import type { Config } from '@/lib/postgres/types';
+import { db } from '@/db';
+import { configs } from '@/db/schema';
+import type { Config } from '@/db/types';
 import { eq } from 'drizzle-orm';
 
 export class ConfigService {

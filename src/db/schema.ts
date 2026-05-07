@@ -1,8 +1,8 @@
 import { sql } from 'drizzle-orm';
 import { bigint, integer, pgEnum, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
 
-export const userRoleEnum = pgEnum('user_role_enum', ['admin', 'user']);
-export const userStatusEnum = pgEnum('user_status_enum', ['active', 'inactive']);
+export const userRole = pgEnum('user_role_enum', ['admin', 'user']);
+export const userStatus = pgEnum('user_status_enum', ['active', 'inactive', 'banned']);
 
 export const configs = pgTable('configs', {
     id: serial('id').primaryKey(),
@@ -19,8 +19,10 @@ export const users = pgTable('users', {
     username: varchar('username', { length: 255 }).unique().notNull(),
     firstName: varchar('first_name', { length: 255 }).notNull(),
     lastName: varchar('last_name', { length: 255 }),
-    role: userRoleEnum('role').default('user').notNull(),
-    status: userStatusEnum('status').default('active').notNull(),
+    role: userRole('role').default('user').notNull(),
+    status: userStatus('status').default('active').notNull(),
+    bannedReason: text('banned_reason'),
+    bannedAt: timestamp('banned_at'),
     createdAt: timestamp('created_at').defaultNow(),
     updatedAt: timestamp('updated_at')
         .defaultNow()

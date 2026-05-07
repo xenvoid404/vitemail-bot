@@ -1,6 +1,6 @@
-import { db } from '@/lib/postgres';
-import { emails } from '@/lib/postgres/schema';
-import type { Email, NewEmail } from '@/lib/postgres/types';
+import { db } from '@/db';
+import { emails } from '@/db/schema';
+import type { Email, NewEmail } from '@/db/types';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id.js';
 import { and, eq, gt } from 'drizzle-orm';

@@ -4,11 +4,11 @@
     "version": "1.0.0",
     "type": "module",
     "scripts": {
-        "dev": "tsx --env-file=.env --watch src/main.ts",
+        "dev": "tsx --env-file=.env --watch src/app.ts",
         "types": "tsc --noEmit",
         "format": "prettier --write .",
         "build": "tsup",
-        "start": "node --env-file=.env dist/main.js",
+        "start": "node --env-file=.env dist/app.js",
         "db:generate": "drizzle-kit generate",
         "db:migrate": "drizzle-kit migrate",
         "db:push": "drizzle-kit push",

@@ -1,5 +1,5 @@
 import type { MyContext } from '@/app/bot/context';
-import { logger } from '@/lib/utils/logger';
+import { logger } from '@/lib/logger';
 import type { NextFunction } from 'grammy';
 
 export async function isRegistered(ctx: MyContext, next: NextFunction) {

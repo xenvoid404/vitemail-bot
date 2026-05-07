@@ -1,5 +1,5 @@
 import type { MyContext } from '@/app/bot/context';
-import { logger } from '@/lib/utils/logger';
+import { logger } from '@/lib/logger';
 import { EmailService } from '@/services/database/email-service';
 import { InlineKeyboard } from 'grammy';
 

@@ -1,6 +1,6 @@
 import type { MyContext } from '@/app/bot/context';
-import type { Inbox } from '@/lib/postgres/types';
-import { logger } from '@/lib/utils/logger';
+import type { Inbox } from '@/db/types';
+import { logger } from '@/lib/logger';
 import { EmailService } from '@/services/database/email-service';
 import { InboxService } from '@/services/database/inbox-service';
 import dayjs from 'dayjs';
