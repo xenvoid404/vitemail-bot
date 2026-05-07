@@ -1,7 +1,7 @@
 {
     "$schema": "./node_modules/wrangler/config-schema.json",
     "name": "vitemail",
-    "main": "src/cf/worker.js",
+    "main": "./src/cf/worker.ts",
     "observability": {
         "enabled": true,
         "head_sampling_rate": 0.1,
