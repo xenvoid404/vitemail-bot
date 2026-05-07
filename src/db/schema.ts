@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import { bigint, integer, pgEnum, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { bigint, boolean, integer, pgEnum, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
 
 export const userRole = pgEnum('user_role_enum', ['admin', 'user']);
 export const userStatus = pgEnum('user_status_enum', ['active', 'inactive', 'banned']);
@@ -7,6 +7,7 @@ export const userStatus = pgEnum('user_status_enum', ['active', 'inactive', 'ban
 export const configs = pgTable('configs', {
     id: serial('id').primaryKey(),
     emailExpired: integer('email_expired').default(60).notNull(),
+    isMaintenance: boolean('is_maintenance').default(false).notNull(),
     createdAt: timestamp('created_at').defaultNow(),
     updatedAt: timestamp('updated_at')
         .defaultNow()

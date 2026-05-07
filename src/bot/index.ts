@@ -6,10 +6,12 @@ import { logger } from '@/lib/logger';
 import { GrammyError, HttpError } from 'grammy';
 import type { BotContext } from './context';
 import { bot } from './instance';
+import { maintenanceMiddleware } from './middleware/maintenance.middleware';
 import { sessionMiddleware } from './middleware/session.middleware';
 
 export function setupBot() {
     bot.use(sessionMiddleware());
+    bot.use(maintenanceMiddleware);
     bot.use(authMiddleware);
     bot.use(guestFeatures);
 
